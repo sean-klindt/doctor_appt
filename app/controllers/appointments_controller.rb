@@ -1,13 +1,15 @@
-class DoctorsController < ApplicationController
-  before_action :set_doctor
+class AppointmentsController < ApplicationController
+
+  before_action :set_parent
+
   def index
     @appointment = @doctor.appointments
-    render component: '@doctor.appointment', props: {appointments: @appointments, doctor: @doctor}
+    render component: 'Appointments', props: {appointments: @appointments, doctor: @doctor}
   end
 
   def show
     @appointment = @doctor.appointments.find(params[:id])
-    render component: '@doctor.appointment', props: {appointment: @appointment, doctor: @doctor}
+    render component: 'Appointment', props: {appointment: @appointment, doctor: @doctor}
   end
 
   def new
@@ -49,7 +51,7 @@ class DoctorsController < ApplicationController
     params.require(:appointment.permit(:appt_date, :appt_time))
   end
 
-  def set_doctor
+  def set_parent
     @doctor = Doctor.find(params[:doctor_id])
   end
 end

@@ -1,4 +1,5 @@
 class DoctorsController < ApplicationController
+  
   def index
     @doctors = Doctor.all
     render component: 'Doctors', props: {doctors: @doctors}
@@ -6,7 +7,7 @@ class DoctorsController < ApplicationController
 
   def show
     @doctor = Doctor.find(params[:id])
-    render component: 'Doctor', props: {doctor: @doctor, courses: @doctor.courses}
+    render component: 'Doctor', props: {doctor: @doctor, appointments: @doctor.appointments}
   end
 
   def new
