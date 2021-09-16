@@ -1,7 +1,7 @@
 class PatientsController < ApplicationController
   
   def index
-    @patients = Patients.all
+    @patients = Patient.all
     render component: 'Patients', props: { patients: @patients }
   end
 
@@ -20,7 +20,7 @@ class PatientsController < ApplicationController
     if @patient.save
       redirect_to root_path
     else
-      render component: 'PatientNew', props: { patient: @Patient }
+      render component: 'PatientNew', props: { patient: @patient }
     end
   end
 
