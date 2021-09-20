@@ -1,49 +1,49 @@
 class AppointmentsController < ApplicationController
 
-  before_action :set_parent
+  before_action :set_doctor
 
   def index
-    @appointment = @doctor.appointments
-    render component: 'Appointments', props: {appointments: @appointments, doctor: @doctor}
+    @appointments = @doctor.appointments
+    render component: 'Appointments', props: {doctor: @doctor, appointments: @appointments}
   end
 
   def show
     @appointment = @doctor.appointments.find(params[:id])
-    render component: 'Appointment', props: {appointment: @appointment, doctor: @doctor}
+    render component: 'Appointment', props: {doctor: @doctor, appointment: @appointment}
   end
 
   def new
     @appointment = @doctor.appointments.new
-    render component: 'AppointmentNew', props: {appointment: @appointment, doctor: @doctor}
+    render component: 'AppointmentNew', props: {doctor: @doctor, appointment: @appointment}
   end
 
   def create
-    @appointment = @doctor.appointments.new(doctor_params)
+    @appointment = @doctor.appointments.new(appointment_params)
     if @appointment.save
-      redirect_to root_path
+      redirect_to doctor_appointment_path
     else
-      render component: 'AppointmentNew', props: {appointment: @appointment, doctor: @doctor}
+      render component: 'AppointmentNew', props: {doctor: @doctor, appointment: @appointment}
     end
   end
 
   def edit
     @appointment = @doctor.appointments.find(params[:id])
-    render component: 'AppointmentEdit', props: {appointment: @appointment, doctor: @doctor}
+    render component: 'AppointmentEdit', props: {doctor: @doctor, appointment: @appointment}
   end
 
   def update
     @appointment = @doctor.appointments.find(params[:id])
-    if @appointment.update(doctor_params)
-      redirect_to root_path
+    if @appointment.update(appointment_params)
+      redirect_to doctor_appointment_path
     else
-      render component: 'AppointmentEdit', props: {appointment: @appointment, doctor: @doctor}
+      render component: 'AppointmentEdit', props: {doctor: @doctor, appointment: @appointment}
     end
   end
 
   def destroy
-    @appointment = @doctor.appointment.find(params[:id])
-    @appointment.destroy
-    redirect_to root_path
+    @doctor.appointments.find(params[:id]).destroy
+    
+    redirect_to doctor_appointment_path
   end
 
   private
@@ -51,7 +51,7 @@ class AppointmentsController < ApplicationController
     params.require(:appointment.permit(:appt_date, :appt_time))
   end
 
-  def set_parent
+  def set_doctor
     @doctor = Doctor.find(params[:doctor_id])
   end
 end
